@@ -37,7 +37,7 @@
     <div v-if="logOutModal">
       <Modal @close="closeModal">
         <div>
-          <h3 class="font-Poppins text-lg">Are you sure you want to delete?</h3>
+          <h3 class="font-Poppins text-lg">Are you sure you want to Logout?</h3>
           <div class="flex justify-center items-center gap-16 mt-10">
             <button
               @click="closeModal"
