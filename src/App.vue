@@ -25,7 +25,7 @@ import HeaderVue from "./components/Header.vue";
 import Login from "./views/Login.vue";
 import { ref } from "vue";
 const router = useRouter();
-const isAuth = ref(false);
+const isAuth = ref<boolean>(false);
 
 const hideSidebar = ref(false);
 
