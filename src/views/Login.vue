@@ -30,12 +30,12 @@
   </section>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref } from "vue";
 
 const emit = defineEmits(["login"]);
-const email = ref("admin@gmail.com");
-const password = ref("Test123@");
+const email = ref<string>("admin@gmail.com");
+const password = ref<string>("Test123@");
 
 const handleLogin = () => {
   emit("login", { email: email.value, password: password.value });

@@ -88,13 +88,14 @@
   </section>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref } from "vue";
+import IProfile from '../types/Profile'
+
 const password = ref();
 const image = ref();
-
-const editProfile = ref(false);
-const adminData = ref({
+const editProfile = ref<boolean>(false);
+const adminData = ref<IProfile>({
   name: "Atikul Islam",
   email: "atikulislam@gmail.com",
   typeOf: "Super Admin",
@@ -107,7 +108,7 @@ const handleCloseEditProfile = () => {
   editProfile.value = false;
 };
 
-const imageUpload = (e) => {
+const imageUpload = (e: any) => {
   image.value = e.target.files[0];
 };
 

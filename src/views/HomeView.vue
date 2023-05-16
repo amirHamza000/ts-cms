@@ -54,9 +54,6 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: "HomeView",
-  components: {},
-};
+<script setup lang="ts">
+
 </script>

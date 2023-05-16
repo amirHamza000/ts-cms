@@ -59,10 +59,11 @@
 </template>
 
 <script setup lang="ts">
+import { ref } from "vue";
 import { useRouter } from "vue-router";
 import Modal from "./Modal.vue";
-import { ref } from "vue";
-const logOutModal = ref(false);
+
+const logOutModal = ref<boolean>(false);
 const router = useRouter();
 const emit = defineEmits(["setAuth"]);
 const props = defineProps(["sidebarStatus"]);

@@ -23,7 +23,7 @@
   </section>
 </template>
 
-<script setup>
+<script setup lang="ts">
 const emit = defineEmits(["toggle"]);
 const props = defineProps(["sidebarStatus"]);
 const handleToggle = () => {

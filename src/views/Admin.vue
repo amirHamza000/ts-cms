@@ -9,7 +9,7 @@
         Add+
       </button>
     </div>
-    <div v-if="addAdminModal">
+    <div v-if="adminState.addAdminModal">
       <ModalVue @close="closeModal">
         <div>
           <h3 class="font-Poppins my-2 text-lg">Add Admin Form</h3>
@@ -17,7 +17,7 @@
             <label class="font-Poppins block mb-2">Full Name</label>
             <input
               type="text"
-              v-model="name"
+              v-model="adminState.name"
               class="bg-blue-200 w-96 p-2 rounded font-Poppins outline-none"
             />
           </div>
@@ -25,14 +25,14 @@
             <label class="font-Poppins block mb-2">Email</label>
             <input
               type="text"
-              v-model="email"
+              v-model="adminState.email"
               class="bg-blue-200 w-96 p-2 rounded font-Poppins outline-none"
             />
           </div>
           <div>
             <label class="font-Poppins block mb-2">Type</label>
             <select
-              v-model="type"
+              v-model="adminState.type"
               class="w-full bg-blue-200 p-2 border-1 font-Poppins text-sm"
             >
               <option value="admin">Admin</option>
@@ -44,23 +44,23 @@
             <label class="font-Poppins block mb-2">Password</label>
             <input
               type="text"
-              v-model="password"
+              v-model="adminState.password"
               class="bg-blue-200 w-96 p-2 rounded font-Poppins outline-none"
             />
           </div>
 
           <div class="btn-group-toggle" data-toggle="buttons">
             <label class="font-Poppins text-sm">
-              <input v-model="checkBox" type="checkbox" /> I'm aware of giving
+              <input v-model="adminState.checkbox" type="checkbox" /> I'm aware of giving
               the specified access to this user.</label
             >
           </div>
 
           <button
             @click="handleAddAdmin"
-            :disabled="!checkBox"
+            :disabled="!adminState.checkbox"
             class="w-full font-Poppins bg-blue-900 py-2 text-white mt-5 rounded"
-            :class="{ app: !checkBox }"
+            :class="{ app: !adminState.checkbox }"
           >
             Add
           </button>
@@ -71,7 +71,7 @@
     <div class="grid grid-cols-4 gap-10 p-10">
       <div v-for="admin in adminList" :key="admin.id">
         <div
-          class="relative w-64 h-80 rounded-lg shadow-2xl bg-blue-500 p-3 flex flex-col items-center"
+          class="relative w-64 h-80 rounded-lg shadow-2xl bg-slate-400 p-3 flex flex-col items-center"
         >
           <div class="absolute right-6">
             <font-awesome-icon
@@ -107,7 +107,7 @@
       </div>
     </div>
 
-    <div v-if="deleteModal">
+    <div v-if="adminState.deleteModal">
       <ModalVue @close="closeDeleteModal">
         <div>
           <h3 class="font-Poppins text-lg">Are you sure you want to delete?</h3>
@@ -131,11 +131,14 @@
   </section>
 </template>
 
-<script setup>
+<script setup lang="ts">
+import { ref, reactive } from "vue";
+import IAdmin from '../types/Admin';
+import IAddAdmin from '../types/AddAdmin';
 import ModalVue from "@/components/Modal.vue";
-import { ref } from "vue";
 
-const adminList = ref([
+
+const adminList = ref<IAdmin[]>([
   {
     id: 1,
     name: "Atikul Islam",
@@ -148,37 +151,43 @@ const adminList = ref([
   { id: 4, name: "Aminul Islam", email: "aminul@gmail.com", typeOf: "admin" },
 ]);
 
-const addAdminModal = ref(false);
-const deleteModal = ref(false);
-const name = ref();
-const email = ref();
-const type = ref();
-const password = ref();
-const checkBox = ref(false);
-const deleteId = ref();
+const adminState = reactive<IAddAdmin>({
+  addAdminModal: false ,
+  deleteModal: false,
+
+  name: '',
+  email: '',
+  password: '',
+  type: '',
+  checkbox: false,
+
+  deletedId: NaN,
+
+})
+
 const showModal = () => {
-  addAdminModal.value = true;
+  adminState.addAdminModal = true;
 };
 
 const closeModal = () => {
-  addAdminModal.value = false;
+  adminState.addAdminModal = false;
 };
 
-const showDeleteModal = (id) => {
-  deleteModal.value = true;
-  deleteId.value = id;
+const showDeleteModal = (id:number) => {
+  adminState.deleteModal = true;
+  adminState.deletedId = id;
 };
 
 const closeDeleteModal = () => {
-  deleteModal.value = false;
+  adminState.deleteModal = false;
 };
 
 const handleAddAdmin = () => {
   const add = adminList.value.push({
-    id: adminList.length + 1,
-    name: name,
-    email: email,
-    typeOf: type,
+    id: parseInt(adminList.length + 1),
+    name: adminState.name,
+    email: adminState.email,
+    typeOf: adminState.type,
   });
 
   closeModal();
@@ -188,7 +197,7 @@ console.log(adminList);
 
 const handleDelete = () => {
   const result = adminList.value.filter((e, i) => {
-    if (e.id !== deleteId.value) {
+    if (e.id !== adminState.deletedId) {
       return e;
     }
   });

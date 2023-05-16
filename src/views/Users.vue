@@ -42,8 +42,11 @@
   </section>
 </template>
 
-<script setup>
-const users = [
+<script setup lang="ts">
+import { ref } from 'vue';
+import IUsers from '../types/Users';
+
+const users = ref<IUsers[]>([
   {
     id: 1,
     name: "Rosetta Kozey",
@@ -100,7 +103,7 @@ const users = [
     spend: 330,
     type: "regular",
   },
-];
+]);
 </script>
 
 <style scoped></style>
